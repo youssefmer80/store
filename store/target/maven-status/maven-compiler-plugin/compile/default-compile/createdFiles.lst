@@ -1,0 +1,8 @@
+com\store\StoreApplication.class
+com\store\domain\Category.class
+com\store\repository\ProductRepository.class
+com\store\exception\ProductNotFoundException.class
+com\store\repository\CategoryRepository.class
+com\store\exception\ClientErrorInformation.class
+com\store\rest\controller\ProductController.class
+com\store\domain\Product.class
