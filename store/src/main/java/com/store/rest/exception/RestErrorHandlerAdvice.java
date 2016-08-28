@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-
+import com.store.exception.CategoryNotFoundException;
 import com.store.exception.ClientErrorInformation;
 import com.store.exception.ProductNotFoundException;
 
@@ -15,8 +15,8 @@ import com.store.exception.ProductNotFoundException;
 @ControllerAdvice
 public class RestErrorHandlerAdvice {
 	
-	@ExceptionHandler(ProductNotFoundException.class)
-	public ResponseEntity<ClientErrorInformation> rulesForProductNotFoundException(
+	@ExceptionHandler({ProductNotFoundException.class,CategoryNotFoundException.class})
+	public ResponseEntity<ClientErrorInformation> rulesForProductOrCategoryNotFoundException(
 			Exception e, HttpServletRequest req) {
 		
 		String url = req.getRequestURI();
@@ -25,5 +25,6 @@ public class RestErrorHandlerAdvice {
 		ClientErrorInformation clientErrorInformation = new ClientErrorInformation(errorMessage,url);
 		return new ResponseEntity<ClientErrorInformation>(clientErrorInformation,HttpStatus.NOT_FOUND);
 	}
+
 
 }

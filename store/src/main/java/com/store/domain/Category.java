@@ -16,11 +16,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.store.util.LocalDateConverter;
+import com.store.util.LocalDateDeserializer;
+import com.store.util.LocalDateSerializer;
 
 @Entity
 @Table(name="category")
+@XmlRootElement
 public class Category implements Serializable {
 	
 	/**
@@ -43,15 +49,15 @@ public class Category implements Serializable {
 	
 	@Column(name = "category_created")
 	@Convert(converter = LocalDateConverter.class)
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate categoryCreated;
 	
 
-	@Column(name = "category_lastupdate")
+	@Column(name = "category_lastupdated")
 	@Convert(converter = LocalDateConverter.class)
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate categoryUpdated;
 	
 
@@ -69,9 +75,16 @@ public class Category implements Serializable {
 	
 	public Category(String categoryName, LocalDate date) {
 		this.categoryName = categoryName;
-		products = new HashSet<Product>();
-		categoryCreated = date;
-		categoryUpdated = date;
+		this.products = new HashSet<Product>();
+		this.categoryCreated = date;
+		this.categoryUpdated = date;
+	}
+	
+	public Category(String categoryName, Set<Product> products, LocalDate date) {
+		this.categoryName = categoryName;
+		this.products = products;
+		this.categoryCreated = date;
+		this.categoryUpdated = date;
 	}
 	
 

@@ -44,21 +44,21 @@ public class ProductRepositoryTest {
 	@Test
 	public void FindByNameShouldReturnProduct() {
 
-		productRepository.save(new Product("SkuA", "ProductA"));
-		productRepository.save(new Product("SkuB", "ProductB"));
-		productRepository.save(new Product("SkuC", "ProductC"));
-		productRepository.save(new  Product("SkuD", "ProductD",LocalDate.now().minusDays(1),LocalDate.now()));
+		productRepository.save(new Product("Sku1", "Product1"));
+		productRepository.save(new Product("Sku2", "Product2"));
+		productRepository.save(new Product("Sku3", "Product3"));
+		productRepository.save(new  Product("Sku4", "Product4",LocalDate.now().minusDays(1),LocalDate.now()));
 
-		Product product1 = productRepository.findByProductName("ProductB");
+		Product product1 = productRepository.findByProductName("Product2");
 		assertThat(product1.getProductLastUpdated().compareTo(LocalDate.now())).isEqualTo(0);
-		assertThat(product1.getProductSku()).isEqualTo("SkuB");
+		assertThat(product1.getProductSku()).isEqualTo("Sku2");
 
-		Product product2 = productRepository.findByProductName("ProductD");
+		Product product2 = productRepository.findByProductName("Product4");
 		assertThat(product2.getProductCreated().compareTo(LocalDate.now())).isEqualTo(-1);
 		assertThat(product2.getProductLastUpdated().compareTo(LocalDate.now())).isEqualTo(0);
-		assertThat(product2.getProductSku()).isEqualTo("SkuD");
+		assertThat(product2.getProductSku()).isEqualTo("Sku4");
 		
-		Product product3 = productRepository.findByProductName("ProductF");
+		Product product3 = productRepository.findByProductName("Product6");
 		assertThat(product3).isEqualTo(null);
 	}
 	

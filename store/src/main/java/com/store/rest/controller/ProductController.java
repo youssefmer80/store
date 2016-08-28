@@ -64,7 +64,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ProductCollectionRepresentation getProducts(
+	public ProductCollectionRepresentation getAllProducts(
 			@RequestParam(required = false) Integer first,
 			@RequestParam(required = false) Integer last) {
 
@@ -109,7 +109,7 @@ public class ProductController {
 		return UpdatedProduct;
 	}
 	
-	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.PUT,consumes="application/json")
+	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.PUT)
 	public Product updateProductBySku(@RequestBody Product product,
 			@PathVariable("sku") String sku) {
 

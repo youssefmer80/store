@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,12 +22,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store.domain.Product;
@@ -72,7 +74,8 @@ public class ProductControllerTest  {
 		
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(productController)
-				.setControllerAdvice(new RestErrorHandlerAdvice()).build();
+				.setControllerAdvice(new RestErrorHandlerAdvice()).setMessageConverters(new MappingJackson2HttpMessageConverter(),
+                        new Jaxb2RootElementHttpMessageConverter()).build();
 		
 	}
 	
@@ -86,8 +89,7 @@ public class ProductControllerTest  {
 		 this.mockMvc.perform(
 				 MockMvcRequestBuilders.get("/product/id/{id}",10L)
 		            .contentType(MediaType.APPLICATION_JSON)
-		            .accept(MediaType.APPLICATION_JSON)
-		            )
+		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
 		            .andExpect(jsonPath("message", is(message)))
 		            .andExpect(jsonPath("url", is(url)));
@@ -100,7 +102,7 @@ public class ProductControllerTest  {
 	@Test
 	public void testGetProductIdFound() throws Exception {
 
-		Product product = new Product(1L,"SKU_A", "ProductA", LocalDate.of(2016, 8, 14),LocalDate.of(2016, 8, 17));	   
+		Product product = new Product("SKU_A", "ProductA", LocalDate.of(2016, 8, 14),LocalDate.of(2016, 8, 17));	   
 		
 		when(productRepository.findOne(1L)).thenReturn(product);
 		
@@ -261,9 +263,11 @@ public class ProductControllerTest  {
 		            .accept(MediaType.APPLICATION_JSON)
 		             .content(asJsonString(product)))
 		            .andExpect(status().isNotFound())
+		            .andExpect(content().contentType(contentType))
 		            .andExpect(jsonPath("message", is(message)))
 		            .andExpect(jsonPath("url", is(url)));
 		 
+		 verify(productRepository, times(1)).findOne(25L);
 		 verify(productRepository, times(0)).saveAndFlush(product);
 		
 	}
@@ -273,19 +277,23 @@ public class ProductControllerTest  {
 		
 		Product product = new Product(1L,"SKU_A", "ProductA", LocalDate.of(2016, 8, 16),LocalDate.now());
 		
-		Product updatedProduct = new Product("SKU_A", "Product_A1");
+		Product updatedProduct = new Product(1L,"SKU_A", "Product_A1",LocalDate.of(2016, 8, 16),LocalDate.now());
 		
 		when(productRepository.findOne(1L)).thenReturn(product);
 		 
 		this.mockMvc.perform(
 				 MockMvcRequestBuilders.put("/product/id/{id}",1L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+				//.accept((MediaType.APPLICATION_JSON))
                 .content(asJsonString(updatedProduct)))
                 .andExpect(status().isOk());
-                //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		 		//.andExpect(jsonPath("productSku", is("SKU_A")));
+               // .andExpect(content().mimeType(contentType))
+                //.andExpect(content().contentTypeCompatibleWith(contentType))
+		 		//.andExpect(jsonPath("$.productSku", is("SKU_A")))
 		 		//.andExpect(jsonPath("$.productName", is("Product_A1")));
+		
+		verify(productRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).saveAndFlush(updatedProduct);
 
 		
 	}
@@ -308,7 +316,34 @@ public class ProductControllerTest  {
 		            .andExpect(jsonPath("message", is(message)))
 		            .andExpect(jsonPath("url", is(url)));
 		 
+		 verify(productRepository,times(1)).findByProductSku("SKU_111");
 		 verify(productRepository, times(0)).saveAndFlush(product);
+		
+	}
+	
+	@Test
+	public void testUpdateProductBySkuExisted() throws Exception {
+		
+		Product product = new Product(25L,"SKU_1", "Product1", LocalDate.of(2016, 8, 16),LocalDate.now());
+		
+		when(productRepository.findByProductSku("SKU_1")).thenReturn(product);
+		
+		Product updatedProduct = new Product(1L,"SKU_1", "Product_V1",LocalDate.of(2016, 8, 16),LocalDate.now());
+		 
+		 
+		this.mockMvc.perform(
+				 MockMvcRequestBuilders.put("/product/sku/{sku}","SKU_1")
+				.contentType(MediaType.APPLICATION_JSON)
+				//.accept((MediaType.APPLICATION_JSON))
+                .content(asJsonString(updatedProduct)))
+                .andExpect(status().isOk());
+               // .andExpect(content().mimeType(contentType))
+                //.andExpect(content().contentTypeCompatibleWith(contentType))
+		 		//.andExpect(jsonPath("$.productSku", is("SKU_A")))
+		 		//.andExpect(jsonPath("$.productName", is("Product_A1")));
+		
+		verify(productRepository,times(1)).findByProductSku("SKU_1");
+		 verify(productRepository, times(1)).saveAndFlush(updatedProduct);
 		
 	}
 	
