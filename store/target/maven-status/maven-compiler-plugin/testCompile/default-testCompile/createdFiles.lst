@@ -1,0 +1,6 @@
+com\store\rest\controller\test\ProductControllerTest.class
+com\store\test\StoreApplicationTests.class
+com\store\repository\test\CategoryRepositoryTest.class
+com\store\rest\controller\test\CategoryControllerTest.class
+com\store\repository\test\ProductRepositoryTest.class
+com\store\util\test\TestUtil.class

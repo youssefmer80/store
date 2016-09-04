@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.store.repository.test.ProductRepositoryTest" time="0.028" tests="4" errors="0" skipped="0" failures="0">
+<testsuite name="com.store.repository.test.ProductRepositoryTest" time="0.041" tests="4" errors="0" skipped="0" failures="2">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_25\jre\bin"/>
     <property name="java.vm.version" value="25.25-b02"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\youssefmer\git\store"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -25,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8793534459769971233.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf5891640414443071453.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_25\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/bin/server;C:/Program Files/Java/bin;C:/Program Files/Java/lib/amd64;C:\Program Files (x86)\RSA SecurID Token Common;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_25\bin;C:\ProgramData\Oracle\Java\javapath\javaw;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\12.0\DLLShared\;C:\ant\bin;C:\Program Files (x86)\Roxio\OEM\AudioCore\;C:\Users\youssefmer\maven\bin;C:\Program Files (x86)\scala\bin;C:\Program Files (x86)\Skype\Phone\;C:\cygwin64\bin;C:\Python\Python36;C:\Python\Python36\Scripts;C:\Ruby192\bin;C:\Program Files\Java\jdk1.8.0_25\bin;C:\Git\cmd;C:\Users\youssefmer\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -38,8 +39,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="file.encoding" value="Cp1252"/>
     <property name="user.name" value="youssefmer"/>
-    <property name="java.class.path" value="/C:/Users/youssefmer/Desktop/eclipse/plugins/org.eclipse.m2e.maven.runtime_1.5.1.20150109-1819/jars/plexus-classworlds-2.5.1.jar"/>
-    <property name="org.slf4j.simpleLogger.defaultLogLevel" value="info"/>
+    <property name="java.class.path" value="/C:/Users/youssefmer/Desktop/eclipse/plugins/org.eclipse.m2e.maven.runtime_1.7.0.20160603-1931/jars/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_25\jre"/>
@@ -60,8 +60,38 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="FindByIDShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.004"/>
-  <testcase name="FindAllShouldReturnProducts" classname="com.store.repository.test.ProductRepositoryTest" time="0.001"/>
-  <testcase name="FindByNameShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.013"/>
-  <testcase name="FindBySKUShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.01"/>
+  <testcase name="FindByIDShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.024"/>
+  <testcase name="FindAllShouldReturnProducts" classname="com.store.repository.test.ProductRepositoryTest" time="0.01">
+    <failure message="expected:&lt;-[5]&gt; but was:&lt;-[1]&gt;" type="org.junit.ComparisonFailure"><![CDATA[org.junit.ComparisonFailure: expected:<-[5]> but was:<-[1]>
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at com.store.repository.test.ProductRepositoryTest.FindAllShouldReturnProducts(ProductRepositoryTest.java:102)
+]]></failure>
+    <system-out><![CDATA[2016-09-01 22:17:24.922  INFO 9648 --- [           main] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@40943a6 testClass = ProductRepositoryTest, testInstance = com.store.repository.test.ProductRepositoryTest@3d3a1903, testMethod = FindAllShouldReturnProducts@ProductRepositoryTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@37e0056e testClass = ProductRepositoryTest, locations = '{}', classes = '{class com.store.StoreApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.ImportsContextCustomizer@45954b81, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4d3167f4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@42eca56e, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@22a67b4, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@5eb31aa2], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@4751e8b9]; rollback [true]
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: select product0_.product_id as product_1_2_, product0_.product_created as product_2_2_, product0_.product_lastupdate as product_3_2_, product0_.product_name as product_4_2_, product0_.product_sku as product_5_2_ from product product0_
+2016-09-01 22:17:24.946  INFO 9648 --- [           main] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test context [DefaultTestContext@40943a6 testClass = ProductRepositoryTest, testInstance = com.store.repository.test.ProductRepositoryTest@3d3a1903, testMethod = FindAllShouldReturnProducts@ProductRepositoryTest, testException = org.junit.ComparisonFailure: expected:<-[5]> but was:<-[1]>, mergedContextConfiguration = [MergedContextConfiguration@37e0056e testClass = ProductRepositoryTest, locations = '{}', classes = '{class com.store.StoreApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.ImportsContextCustomizer@45954b81, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4d3167f4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@42eca56e, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@22a67b4, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@5eb31aa2], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]].
+]]></system-out>
+  </testcase>
+  <testcase name="FindByNameShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.006"/>
+  <testcase name="FindBySKUShouldReturnProduct" classname="com.store.repository.test.ProductRepositoryTest" time="0.001">
+    <failure message="expected:&lt;-[3]&gt; but was:&lt;-[1]&gt;" type="org.junit.ComparisonFailure"><![CDATA[org.junit.ComparisonFailure: expected:<-[3]> but was:<-[1]>
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at com.store.repository.test.ProductRepositoryTest.FindBySKUShouldReturnProduct(ProductRepositoryTest.java:78)
+]]></failure>
+    <system-out><![CDATA[2016-09-01 22:17:24.996  INFO 9648 --- [           main] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@40943a6 testClass = ProductRepositoryTest, testInstance = com.store.repository.test.ProductRepositoryTest@217235f5, testMethod = FindBySKUShouldReturnProduct@ProductRepositoryTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@37e0056e testClass = ProductRepositoryTest, locations = '{}', classes = '{class com.store.StoreApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.ImportsContextCustomizer@45954b81, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4d3167f4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@42eca56e, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@22a67b4, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@5eb31aa2], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@4751e8b9]; rollback [true]
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: insert into product (product_id, product_created, product_lastupdate, product_name, product_sku) values (default, ?, ?, ?, ?)
+Hibernate: select product0_.product_id as product_1_2_, product0_.product_created as product_2_2_, product0_.product_lastupdate as product_3_2_, product0_.product_name as product_4_2_, product0_.product_sku as product_5_2_ from product product0_ where product0_.product_sku=?
+Hibernate: select product0_.product_id as product_1_2_, product0_.product_created as product_2_2_, product0_.product_lastupdate as product_3_2_, product0_.product_name as product_4_2_, product0_.product_sku as product_5_2_ from product product0_ where product0_.product_sku=?
+2016-09-01 22:17:25.026  INFO 9648 --- [           main] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test context [DefaultTestContext@40943a6 testClass = ProductRepositoryTest, testInstance = com.store.repository.test.ProductRepositoryTest@217235f5, testMethod = FindBySKUShouldReturnProduct@ProductRepositoryTest, testException = org.junit.ComparisonFailure: expected:<-[3]> but was:<-[1]>, mergedContextConfiguration = [MergedContextConfiguration@37e0056e testClass = ProductRepositoryTest, locations = '{}', classes = '{class com.store.StoreApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.ImportsContextCustomizer@45954b81, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4d3167f4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@42eca56e, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@22a67b4, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@5eb31aa2], contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]].
+]]></system-out>
+  </testcase>
 </testsuite>

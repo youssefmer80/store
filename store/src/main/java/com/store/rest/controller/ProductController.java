@@ -7,7 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,6 +131,51 @@ public class ProductController {
 		UpdatedProduct = productRepository.saveAndFlush(UpdatedProduct);
 		
 		return UpdatedProduct;
+	}
+	
+	@RequestMapping(value="/products", method = RequestMethod.POST)
+	public ResponseEntity<Product> createNewProduct(@RequestBody Product product){
+		
+		if(product.getProductCreated() == null){
+			product.setProductCreated(LocalDate.now());
+		}
+		
+		if(product.getProductLastUpdated() == null){
+			product.setProductLastUpdated(LocalDate.now());
+		}
+		
+		productRepository.save(product);
+		
+		return new ResponseEntity<Product>(product, null, HttpStatus.CREATED);
+		
+	}
+	
+	@RequestMapping(value="/product/id/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Product> deleteProductById(@PathVariable("id") Long productId){
+		
+		Product deletedProduct = productRepository.findOne(productId);
+		if(deletedProduct == null){
+			throw new ProductNotFoundException("the product Id " + productId
+					+ " is not existed to delete it it");
+		}
+		
+		productRepository.delete(deletedProduct);
+		
+		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping(value="/product/sku/{sku}", method = RequestMethod.DELETE)
+	public ResponseEntity<Product> deleteProductBySKU(@PathVariable("sku") String sku){
+		
+		Product deletedProduct = productRepository.findByProductSku(sku);
+		if(deletedProduct == null){
+			throw new ProductNotFoundException("the product sku " + sku
+					+ " is not existed to delete it it");
+		}
+		
+		productRepository.delete(deletedProduct);
+		
+		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
 	}
 
 }

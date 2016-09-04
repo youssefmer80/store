@@ -1,8 +1,10 @@
 package com.store.util.test;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.http.MediaType;
  
+
 import java.io.IOException;
 import java.nio.charset.Charset;
  
@@ -24,5 +26,13 @@ public class TestUtil {
         }
  
         return builder.toString();
+    }
+    
+    public static String asJsonString(Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

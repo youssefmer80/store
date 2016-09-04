@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.store.rest.controller.test.ProductControllerTest" time="0.846" tests="12" errors="0" skipped="0" failures="0">
+<testsuite name="com.store.rest.controller.test.ProductControllerTest" time="8.322" tests="12" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_25\jre\bin"/>
     <property name="java.vm.version" value="25.25-b02"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\youssefmer\git\store"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -25,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8793534459769971233.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf5891640414443071453.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_25\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/bin/server;C:/Program Files/Java/bin;C:/Program Files/Java/lib/amd64;C:\Program Files (x86)\RSA SecurID Token Common;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_25\bin;C:\ProgramData\Oracle\Java\javapath\javaw;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\12.0\DLLShared\;C:\ant\bin;C:\Program Files (x86)\Roxio\OEM\AudioCore\;C:\Users\youssefmer\maven\bin;C:\Program Files (x86)\scala\bin;C:\Program Files (x86)\Skype\Phone\;C:\cygwin64\bin;C:\Python\Python36;C:\Python\Python36\Scripts;C:\Ruby192\bin;C:\Program Files\Java\jdk1.8.0_25\bin;C:\Git\cmd;C:\Users\youssefmer\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -38,8 +39,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="file.encoding" value="Cp1252"/>
     <property name="user.name" value="youssefmer"/>
-    <property name="java.class.path" value="/C:/Users/youssefmer/Desktop/eclipse/plugins/org.eclipse.m2e.maven.runtime_1.5.1.20150109-1819/jars/plexus-classworlds-2.5.1.jar"/>
-    <property name="org.slf4j.simpleLogger.defaultLogLevel" value="info"/>
+    <property name="java.class.path" value="/C:/Users/youssefmer/Desktop/eclipse/plugins/org.eclipse.m2e.maven.runtime_1.7.0.20160603-1931/jars/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_25\jre"/>
@@ -60,16 +60,16 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="testGetAllProductsFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.096"/>
-  <testcase name="testGetProductNameFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.076"/>
-  <testcase name="testGetAllProductsNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.036"/>
-  <testcase name="testGetProductIdFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.04"/>
-  <testcase name="testUpdateProductBySkuExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.264"/>
-  <testcase name="testUpdateProductByIdExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.033"/>
-  <testcase name="testGetProductNameNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.039"/>
-  <testcase name="testGetProductSkuFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.04"/>
-  <testcase name="testUpdateProductByIdNotExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.07"/>
-  <testcase name="testGetProductIdNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.105"/>
-  <testcase name="testUpdateProductBySkuNotExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.002"/>
-  <testcase name="testGetProductSkuNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.045"/>
+  <testcase name="testGetAllProductsFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.16"/>
+  <testcase name="testGetProductNameFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.066"/>
+  <testcase name="testGetAllProductsNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.044"/>
+  <testcase name="testGetProductIdFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.036"/>
+  <testcase name="testUpdateProductBySkuExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="7.433"/>
+  <testcase name="testUpdateProductByIdExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.08"/>
+  <testcase name="testGetProductNameNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.052"/>
+  <testcase name="testGetProductSkuFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.051"/>
+  <testcase name="testUpdateProductByIdNotExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.271"/>
+  <testcase name="testGetProductIdNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.003"/>
+  <testcase name="testUpdateProductBySkuNotExisted" classname="com.store.rest.controller.test.ProductControllerTest" time="0.077"/>
+  <testcase name="testGetProductSkuNotFound" classname="com.store.rest.controller.test.ProductControllerTest" time="0.049"/>
 </testsuite>

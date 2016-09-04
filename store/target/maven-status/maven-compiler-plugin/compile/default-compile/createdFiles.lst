@@ -1,0 +1,16 @@
+com\store\StoreApplication.class
+com\store\rest\representation\CategoryCollectionRepresentation.class
+com\store\domain\Category.class
+com\store\rest\exception\RestErrorHandlerAdvice.class
+com\store\repository\ProductRepository.class
+com\store\exception\ProductNotFoundException.class
+com\store\repository\CategoryRepository.class
+com\store\util\LocalDateSerializer.class
+com\store\rest\representation\ProductCollectionRepresentation.class
+com\store\util\LocalDateConverter.class
+com\store\exception\ClientErrorInformation.class
+com\store\rest\controller\ProductController.class
+com\store\rest\controller\CategoryController.class
+com\store\exception\CategoryNotFoundException.class
+com\store\domain\Product.class
+com\store\util\LocalDateDeserializer.class
