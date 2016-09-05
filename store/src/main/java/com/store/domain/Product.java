@@ -34,7 +34,7 @@ public class Product implements Serializable{
 	@Column(name = "product_sku", nullable=false, unique=true)
 	private String productSku;
 	
-	@Column(name = "product_name",nullable=false, unique=true)
+	@Column(name = "product_name",nullable=false)
 	private String productName;
 	
 	@Column(name = "product_created")

@@ -1,18 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.store.repository.test.ProductRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.041 sec <<< FAILURE! - in com.store.repository.test.ProductRepositoryTest
-FindAllShouldReturnProducts(com.store.repository.test.ProductRepositoryTest)  Time elapsed: 0.01 sec  <<< FAILURE!
-org.junit.ComparisonFailure: expected:<-[5]> but was:<-[1]>
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at com.store.repository.test.ProductRepositoryTest.FindAllShouldReturnProducts(ProductRepositoryTest.java:102)
-
-FindBySKUShouldReturnProduct(com.store.repository.test.ProductRepositoryTest)  Time elapsed: 0.001 sec  <<< FAILURE!
-org.junit.ComparisonFailure: expected:<-[3]> but was:<-[1]>
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at com.store.repository.test.ProductRepositoryTest.FindBySKUShouldReturnProduct(ProductRepositoryTest.java:78)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 sec - in com.store.repository.test.ProductRepositoryTest

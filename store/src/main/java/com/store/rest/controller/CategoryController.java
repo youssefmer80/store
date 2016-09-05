@@ -116,7 +116,7 @@ public class CategoryController {
 		
 	}
 	
-	@RequestMapping(value="/category/{categoryId}/products/{productIds}", method=RequestMethod.POST)
+	@RequestMapping(value="/category/{categoryId}/products/{productIds}", method=RequestMethod.PUT)
 	public ResponseEntity<Category> addExistedProductToCategory(@PathVariable("categoryId") long catId,
 			@PathVariable("productIds") List<String> productIds){
 		
@@ -141,11 +141,11 @@ public class CategoryController {
 		
 		categoryRepository.saveAndFlush(foundCategory);
 		
-		return new ResponseEntity<Category>(foundCategory,null,HttpStatus.CREATED);
+		return new ResponseEntity<Category>(foundCategory,null,HttpStatus.OK);
 		
 	}
 	
-	@RequestMapping(value="/category/{categoryId}/products", method=RequestMethod.POST)
+	@RequestMapping(value="/category/{categoryId}/products", method=RequestMethod.PUT)
 	public ResponseEntity<Category> addNewProductsToCategory(@PathVariable("categoryId") long catId,
 			@RequestBody List<Product> products){
 		
@@ -168,6 +168,7 @@ public class CategoryController {
 			if(product.getProductLastUpdated() == null){
 				product.setProductLastUpdated(LocalDate.now());
 			}
+			productRepository.save(product);
 			foundCategoryProducts.add(product);
 		}
 		
@@ -175,12 +176,12 @@ public class CategoryController {
 		
 		categoryRepository.saveAndFlush(foundCategory);
 		
-		return new ResponseEntity<Category>(foundCategory,null,HttpStatus.CREATED);
+		return new ResponseEntity<Category>(foundCategory,null,HttpStatus.OK);
 		
 	}
 	
-	@RequestMapping(value="/category/{categoryId}/product/{productIds}",  method=RequestMethod.DELETE )
-	public ResponseEntity<Category> deleteProductFromCategory(@PathVariable("categoryId") long categoryId,
+	@RequestMapping(value="/category/{categoryId}/products/{productIds}",  method=RequestMethod.DELETE )
+	public ResponseEntity<Category> deleteProductsFromCategory(@PathVariable("categoryId") long categoryId,
 			@PathVariable("productIds") List<String> productIds){
 		
 		Category foundCategory = categoryRepository.findOne(categoryId);

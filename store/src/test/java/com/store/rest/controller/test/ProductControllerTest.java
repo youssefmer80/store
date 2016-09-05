@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +40,6 @@ import com.store.util.test.TestUtil;
 @WebAppConfiguration
 public class ProductControllerTest {
 
-	private MediaType contentType = new MediaType(
-			MediaType.APPLICATION_JSON.getType(),
-			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 	@InjectMocks
 	private ProductController productController;
@@ -125,48 +121,6 @@ public class ProductControllerTest {
 
 	}
 
-	@Test
-	public void testGetProductNameNotFound() throws Exception {
-
-		String message = "the product Name ProA is not existed";
-		String url = "/product/name/ProA";
-		when(productRepository.findByProductName("ProA")).thenThrow(
-				new ProductNotFoundException(message));
-
-		this.mockMvc
-				.perform(
-						MockMvcRequestBuilders
-								.get("/product/name/{name}", "ProA")
-								.contentType(MediaType.APPLICATION_JSON)
-								.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("message", is(message)))
-				.andExpect(jsonPath("url", is(url)));
-
-		verify(productRepository, times(1)).findByProductName("ProA");
-		verifyNoMoreInteractions(productRepository);
-	}
-
-	@Test
-	public void testGetProductNameFound() throws Exception {
-
-		Product product = new Product("SKU_1", "Product1", LocalDate.of(2016,
-				8, 14), LocalDate.of(2016, 8, 17));
-
-		when(productRepository.findByProductName("Product1")).thenReturn(
-				product);
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.get("/product/name/{name}", "Product1")
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("productSku", is("SKU_1")))
-				.andExpect(jsonPath("productName", is("Product1")));
-
-		verify(productRepository, times(1)).findByProductName("Product1");
-		verifyNoMoreInteractions(productRepository);
-
-	}
 
 	@Test
 	public void testGetProductSkuNotFound() throws Exception {
@@ -287,7 +241,7 @@ public class ProductControllerTest {
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
 				.andExpect(status().isNotFound())
-				.andExpect(content().contentType(contentType))
+				.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("message", is(message)))
 				.andExpect(jsonPath("url", is(url)));
 
@@ -341,7 +295,7 @@ public class ProductControllerTest {
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
 				.andExpect(status().isNotFound())
-				.andExpect(content().contentType(contentType))
+				.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("message", is(message)))
 				.andExpect(jsonPath("url", is(url)));
 
@@ -413,7 +367,7 @@ public class ProductControllerTest {
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
 				.andExpect(status().isNotFound())
-				.andExpect(content().contentType(contentType))
+				.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("message", is(message)))
 				.andExpect(jsonPath("url", is(url)));
 
@@ -463,7 +417,7 @@ public class ProductControllerTest {
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
 				.andExpect(status().isNotFound())
-				.andExpect(content().contentType(contentType))
+				.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("message", is(message)))
 				.andExpect(jsonPath("url", is(url)));
 

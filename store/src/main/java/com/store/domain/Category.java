@@ -91,6 +91,10 @@ public class Category implements Serializable {
 	public long getCategoryId() {
 		return categoryId;
 	}
+	
+	public void setCategoryId(long l) {
+		this.categoryId = l;		
+	}
 
 
 	public String getCategoryName() {
@@ -164,6 +168,9 @@ public class Category implements Serializable {
 				+ ", categoryCreated=" + categoryCreated + ", categoryUpdated="
 				+ categoryUpdated + "]";
 	}
+
+
+	
 	
 
 

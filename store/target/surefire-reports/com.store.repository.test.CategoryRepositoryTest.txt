@@ -1,18 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.store.repository.test.CategoryRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 121.349 sec <<< FAILURE! - in com.store.repository.test.CategoryRepositoryTest
-findAllShouldReturnCategories(com.store.repository.test.CategoryRepositoryTest)  Time elapsed: 7.358 sec  <<< FAILURE!
-org.junit.ComparisonFailure: expected:<-[3]> but was:<-[1]>
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at com.store.repository.test.CategoryRepositoryTest.findAllShouldReturnCategories(CategoryRepositoryTest.java:90)
-
-FindByIDShouldReturnCategory(com.store.repository.test.CategoryRepositoryTest)  Time elapsed: 0.019 sec  <<< FAILURE!
-org.junit.ComparisonFailure: expected:<-[3]> but was:<-[1]>
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at com.store.repository.test.CategoryRepositoryTest.FindByIDShouldReturnCategory(CategoryRepositoryTest.java:37)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.996 sec - in com.store.repository.test.CategoryRepositoryTest

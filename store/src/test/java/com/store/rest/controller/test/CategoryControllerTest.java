@@ -33,9 +33,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.store.domain.Category;
 import com.store.domain.Product;
 import com.store.exception.CategoryNotFoundException;
+import com.store.exception.ProductNotFoundException;
 import com.store.repository.CategoryRepository;
+import com.store.repository.ProductRepository;
 import com.store.rest.controller.CategoryController;
 import com.store.rest.exception.RestErrorHandlerAdvice;
+import com.store.util.test.TestUtil;
 
 
 @RunWith(SpringRunner.class)
@@ -47,6 +50,9 @@ public class CategoryControllerTest {
 	
 	@Mock
 	private CategoryRepository categoryRepository;
+	
+	@Mock
+	private ProductRepository productRepository;
 		
 	private MockMvc mockMvc;
 	
@@ -221,6 +227,268 @@ public class CategoryControllerTest {
 		verifyNoMoreInteractions(categoryRepository);
 		 
 		
+	}
+	
+	@Test
+	public void testCreateNewCategory() throws Exception{
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		Set<Product> products = new HashSet<Product>();
+		products.add(new Product("sku1","p1"));
+		products.add(new Product("sku2","p2"));
+		category.setProducts(products);
+		
+		when(categoryRepository.save(category)).thenReturn(category);
+		this.mockMvc
+		.perform(
+				MockMvcRequestBuilders.post("/categories")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(TestUtil.asJsonString(category)))
+		.andExpect(status().isCreated())
+		.andExpect(jsonPath("$.categoryName", is("cat1")))
+		.andExpect(jsonPath("$.products[0].productName", is("p1")));
+
+		verify(categoryRepository, times(1)).save(category);
+		verifyNoMoreInteractions(categoryRepository);
+	 
+		
+	}
+	
+	@Test
+	public void testDeleteCategoryNotFound() throws Exception{
+		
+		String message = "category Id 25 is not available in the store to delete";
+		String url = "/category/25";
+		
+		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{id}", 25L)
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(25L);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testDeleteCategoryFound() throws Exception{
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		Set<Product> products = new HashSet<Product>();
+		products.add(new Product("sku1","p1"));
+		products.add(new Product("sku2","p2"));
+		category.setProducts(products);
+		category.setCategoryId(1L);
+
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{id}", 1L)
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNoContent());
+		          
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(categoryRepository, times(1)).delete(category);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testaddExistedProductToCategoryNotFound() throws Exception{
+		
+		String message = "category Id 25 is not available in the store to add product to";
+		String url = "/category/25/products/23,24,25";
+		
+		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 25L,"23,24,25")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(25L);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testaddNontExistedProductToCategory() throws Exception{
+		
+		String message = "product Id 23 is not available in the store to add it to category";
+		String url = "/category/1/products/23";
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		Set<Product> products = new HashSet<Product>();
+		products.add(new Product("sku1","p1"));
+		products.add(new Product("sku2","p2"));
+		category.setProducts(products);
+		category.setCategoryId(1L);
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		when(productRepository.findOne(23L)).thenThrow(new ProductNotFoundException(message));
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 1L,"23")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).findOne(23L);
+		verifyNoMoreInteractions(productRepository);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testaddExistedProductToCategory() throws Exception{
+		
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		category.setCategoryId(1L);
+		
+		Product product = new Product(1L,"sku_1", "p1",LocalDate.now(), LocalDate.now());
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		when(productRepository.findOne(1L)).thenReturn(product);
+		
+		Set<Product> products = new HashSet<Product>();
+		products.add(product);
+		category.setProducts(products);
+		
+		when(categoryRepository.save(category)).thenReturn(category);
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 1L,"1")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		             .andExpect(status().isOk())
+		            .andExpect(jsonPath("$.categoryName", is("cat1")))
+		            .andExpect(jsonPath("$.products[0].productSku", is("sku_1")))
+		            .andExpect(jsonPath("$.products[0].productName", is("p1")));
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).findOne(1L);
+		verify(categoryRepository, times(1)).saveAndFlush(category);
+		verifyNoMoreInteractions(productRepository);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testAddNewProductsToCategoryNotFound() throws Exception{
+		
+		String message = "category Id 25 is not available in the store to add product to";
+		String url = "/category/25/products";
+		
+		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
+		
+		Product product = new Product("SKU_1", "Product1");
+		List<Product> products = new ArrayList<Product>();
+		products.add(product);
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products", 25L)
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .content(TestUtil.asJsonString(products))
+		            .accept(MediaType.APPLICATION_JSON))		           
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(25L);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	@Test
+	public void testAddNewProductsToCategory() throws Exception{
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		category.setCategoryId(1L);
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		
+		Product product1 = new Product("SKU_1", "Product1");
+		Product product2 = new Product("SKU_2", "Product2");
+		List<Product> products = new ArrayList<Product>();
+		products.add(product1);
+		products.add(product2);
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products", 1L)
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .content(TestUtil.asJsonString(products))
+		            .accept(MediaType.APPLICATION_JSON))		           
+		            .andExpect(status().isOk())
+		            .andExpect(jsonPath("$.categoryName", is("cat1")))
+		            .andExpect(jsonPath("$.products[0].productSku", is("SKU_1")))
+		            .andExpect(jsonPath("$.products[0].productName", is("Product1")))
+		            .andExpect(jsonPath("$.products[1].productSku", is("SKU_2")))
+		            .andExpect(jsonPath("$.products[1].productName", is("Product2")));
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).save(product1);
+		verify(productRepository, times(1)).save(product2);
+		verify(categoryRepository, times(1)).saveAndFlush(category);
+		verifyNoMoreInteractions(productRepository);
+		verifyNoMoreInteractions(categoryRepository);
+		
+	}
+	
+	
+	@Test
+	public void testDeleteProductFromCategoryNotFound() throws Exception{
+		
+		String message = "category Id 25 is not available in the store to delete products from";
+		String url = "/category/25/products/12,13,15";
+		
+		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 25L,"12,13,15")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(25L);
+		verifyNoMoreInteractions(categoryRepository);
+	}
+	
+	@Test
+	public void testDeleteNonExistedProductsFromCategory() throws Exception{
+		
+		String message = "product Id 12 is not available in the store to add it to category";
+		String url = "/category/1/products/12,24,23";
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		Set<Product> products = new HashSet<Product>();
+		products.add(new Product("sku1","p1"));
+		products.add(new Product("sku2","p2"));
+		category.setProducts(products);
+		category.setCategoryId(1L);
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		when(productRepository.findOne(12L)).thenThrow(new ProductNotFoundException(message));
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 1L,"12,24,23")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNotFound())
+		            .andExpect(jsonPath("message", is(message)))
+		            .andExpect(jsonPath("url", is(url)));
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).findOne(12L);
+		verifyNoMoreInteractions(productRepository);
+		verifyNoMoreInteractions(categoryRepository);
 	}
 	
 	

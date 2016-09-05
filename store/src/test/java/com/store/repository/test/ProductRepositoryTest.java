@@ -54,7 +54,7 @@ public class ProductRepositoryTest {
 		assertThat(product1.getProductSku()).isEqualTo("Sku2");
 
 		Product product2 = productRepository.findByProductName("Product4");
-		assertThat(product2.getProductCreated().compareTo(LocalDate.now())).isEqualTo(-1);
+		assertThat(product2.getProductCreated().getDayOfYear() - (LocalDate.now().getDayOfYear())).isEqualTo(-1);
 		assertThat(product2.getProductLastUpdated().compareTo(LocalDate.now())).isEqualTo(0);
 		assertThat(product2.getProductSku()).isEqualTo("Sku4");
 		
@@ -75,8 +75,8 @@ public class ProductRepositoryTest {
 		assertThat(product1.getProductName()).isEqualTo("Product11");
 
 		Product product2 = productRepository.findByProductSku("Sku12");
-		assertThat(product2.getProductCreated().compareTo(LocalDate.now())).isEqualTo(-3);
-		assertThat(product2.getProductLastUpdated().compareTo(LocalDate.now())).isEqualTo(-1);
+		assertThat(product2.getProductCreated().getDayOfYear() - (LocalDate.now().getDayOfYear())).isEqualTo(-3);
+		assertThat(product2.getProductLastUpdated().getDayOfYear() - (LocalDate.now().getDayOfYear())).isEqualTo(-1);
 		assertThat(product2.getProductName()).isEqualTo("Product12");
 		
 		Product product3 = productRepository.findByProductSku("Sku180");
@@ -99,7 +99,7 @@ public class ProductRepositoryTest {
 		assertThat(products.get(0).getProductSku()).isEqualTo("Sku11");
 		assertThat(products.get(0).getProductName()).isEqualTo("Product11");
 		
-		assertThat(products.get(1).getProductCreated().compareTo(LocalDate.now())).isEqualTo(-5);
+		assertThat(products.get(1).getProductCreated().getDayOfYear() - (LocalDate.now().getDayOfYear())).isEqualTo(-5);
 		assertThat(products.get(1).getProductLastUpdated().compareTo(LocalDate.now())).isEqualTo(0);
 		
 		assertThat(products.get(2).getProductSku()).isEqualTo("Sku13");

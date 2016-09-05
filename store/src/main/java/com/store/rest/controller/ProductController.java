@@ -40,17 +40,6 @@ public class ProductController {
 		return product;
 	}
 
-	@RequestMapping(value = "/product/name/{name}", method = RequestMethod.GET)
-	public Product getProductByName(@PathVariable("name") String productName)
-			throws ProductNotFoundException {
-
-		Product product = productRepository.findByProductName(productName);
-		if (product == null) {
-			throw new ProductNotFoundException("the product name "
-					+ productName + " is not existed");
-		}
-		return product;
-	}
 
 	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.GET)
 	public Product getProductBySKU(@PathVariable("sku") String productSKU)
