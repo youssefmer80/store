@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,7 +78,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/product/id/{id}", method = RequestMethod.PUT)
-	public Product updateProductById(@RequestBody Product product,
+	public Product updateProductById(@RequestBody @Valid Product product,
 			@PathVariable("id") long productId) {
 
 		Product foundProduct = productRepository.findOne(productId);
@@ -123,7 +124,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/products", method = RequestMethod.POST)
-	public ResponseEntity<Product> createNewProduct(@RequestBody Product product){
+	public ResponseEntity<Product> createNewProduct(@RequestBody @Valid Product product){
 		
 		if(product.getProductCreated() == null){
 			product.setProductCreated(LocalDate.now());

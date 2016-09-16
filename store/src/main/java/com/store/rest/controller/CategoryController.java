@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -84,7 +85,7 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/categories",  method=RequestMethod.POST)
-	public ResponseEntity<Category> createNewCategory(@RequestBody Category category){
+	public ResponseEntity<Category> createNewCategory(@RequestBody @Valid Category category){
 		
 		if(category.getCategoryCreated() == null){
 			category.setCategoryCreated(LocalDate.now());
@@ -191,13 +192,21 @@ public class CategoryController {
 		}
 		Set<Product> categoriesProducts = foundCategory.getProducts();
 		
+		
 		for(String productId:productIds){
-			Product foundProduct = productRepository.findOne(Long.parseLong(productId));
-			if(foundProduct == null){
+			
+			long prdId = Long.parseLong(productId);
+			Product product = productRepository.findOne(prdId);
+			if(product == null){
+				throw new ProductNotFoundException("the product id " + productId
+						+ " is not existed in the store");
+			}
+			if(!categoriesProducts.contains(product) ){
 					throw new ProductNotFoundException("the product id " + productId
-							+ " is not existed");
-			}			
-			categoriesProducts.remove(foundProduct);			
+							+ " is not existed in the category whose name " + foundCategory.getCategoryName() );
+			}
+
+			categoriesProducts.remove(product);			
 		}
 		
 		foundCategory.setProducts(categoriesProducts);

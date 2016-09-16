@@ -2,6 +2,7 @@ package com.store.rest.controller.test;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -20,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.core.MethodParameter;
+import org.springframework.validation.BindingResult;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
@@ -28,6 +31,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.store.domain.Product;
 import com.store.exception.ProductNotFoundException;
@@ -249,6 +253,29 @@ public class ProductControllerTest {
 		verify(productRepository, times(0)).saveAndFlush(product);
 
 	}
+	
+	@Test
+	public void testUpdateProductByIdNotValid() throws Exception {
+		
+		Product product = new Product(1L, "SKU_A", "ProductA", LocalDate.of(
+				2016, 8, 16), LocalDate.now());
+		
+		when(productRepository.findOne(1L)).thenReturn(product);
+		
+		product.setProductSku(TestUtil.createStringWithLength(46));
+		product.setProductName(TestUtil.createStringWithLength(50));
+
+		this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/product/id/{id}", 1L)
+				.contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtil.asJsonString(product)))
+                .andExpect(status().isBadRequest());
+
+		verify(productRepository, times(0)).findOne(1L);
+		verify(productRepository, times(0)).save(product);
+		verifyNoMoreInteractions(productRepository);
+
+    }
 
 	@Test
 	public void testUpdateProductByIdExisted() throws Exception {
@@ -274,6 +301,7 @@ public class ProductControllerTest {
 
 		verify(productRepository, times(1)).findOne(1L);
 		verify(productRepository, times(1)).saveAndFlush(updatedProduct);
+		verifyNoMoreInteractions(productRepository);
 
 	}
 
@@ -301,6 +329,7 @@ public class ProductControllerTest {
 
 		verify(productRepository, times(1)).findByProductSku("SKU_111");
 		verify(productRepository, times(0)).saveAndFlush(product);
+		verifyNoMoreInteractions(productRepository);
 
 	}
 
@@ -328,6 +357,7 @@ public class ProductControllerTest {
 
 		verify(productRepository, times(1)).findByProductSku("SKU_1");
 		verify(productRepository, times(1)).saveAndFlush(updatedProduct);
+		verifyNoMoreInteractions(productRepository);
 
 	}
 
@@ -348,6 +378,36 @@ public class ProductControllerTest {
 		verify(productRepository, times(1)).save(product);
 		verifyNoMoreInteractions(productRepository);
 	}
+	
+	@Test
+	public void testCreateNewNonValidProduct() throws Exception {
+		
+		Product product = new Product();
+		product.setProductSku(TestUtil.createStringWithLength(46));
+		product.setProductName(TestUtil.createStringWithLength(50));
+		
+//		when(productRepository.save(product)).thenThrow(
+//				new MethodArgumentNotValidException(new MethodParameter(null), null));
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtil.asJsonString(product))
+        )
+                .andExpect(status().isBadRequest());
+                //.andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+//                .andExpect(jsonPath("$.fieldErrors", hasSize(2)))
+//                .andExpect(jsonPath("$.fieldErrors[*].path", containsInAnyOrder("productSku", "productName")))
+//                .andExpect(jsonPath("$.fieldErrors[*].message", containsInAnyOrder(
+//                        "The maximum length of the description is 500 characters.",
+//                        "The maximum length of the title is 100 characters."
+//                )));
+
+
+ 
+		verify(productRepository, times(0)).save(product);
+		verifyNoMoreInteractions(productRepository);
+    }
+
 
 	@Test
 	public void testDeleteProductByIdNotExisted() throws Exception {

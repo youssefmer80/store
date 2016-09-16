@@ -10,7 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -32,9 +37,13 @@ public class Product implements Serializable{
 	private long productId;
 	
 	@Column(name = "product_sku", nullable=false, unique=true)
+	@NotEmpty
+	@Length(min=1,max=45)
 	private String productSku;
 	
 	@Column(name = "product_name",nullable=false)
+	@NotEmpty
+	@Length(min=1,max=45)
 	private String productName;
 	
 	@Column(name = "product_created")

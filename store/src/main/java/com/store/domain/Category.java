@@ -16,7 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -41,6 +46,8 @@ public class Category implements Serializable {
 	private long categoryId;
 	
 	@Column(name = "category_name", nullable=false, unique=true)
+	@NotEmpty
+	@Length(min=1,max=45)
 	private String categoryName;
 	
 	@ManyToMany(cascade=CascadeType.ALL)  

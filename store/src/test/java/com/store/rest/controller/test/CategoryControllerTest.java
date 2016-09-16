@@ -239,9 +239,8 @@ public class CategoryControllerTest {
 		category.setProducts(products);
 		
 		when(categoryRepository.save(category)).thenReturn(category);
-		this.mockMvc
-		.perform(
-				MockMvcRequestBuilders.post("/categories")
+		
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/categories")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(TestUtil.asJsonString(category)))
 		.andExpect(status().isCreated())
@@ -253,6 +252,26 @@ public class CategoryControllerTest {
 	 
 		
 	}
+	
+	@Test
+	public void testCreateNewNonValidCategory() throws Exception {
+		
+		Category category = new Category(TestUtil.createStringWithLength(46),LocalDate.of(2016, 8, 22));
+		Set<Product> products = new HashSet<Product>();
+		products.add(new Product("sku1","p1"));
+		products.add(new Product("sku2","p2"));
+		category.setProducts(products);
+
+
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/categories")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.asJsonString(category)))
+				.andExpect(status().isBadRequest());
+
+ 
+		verify(categoryRepository, times(0)).save(category);
+		verifyNoMoreInteractions(categoryRepository);
+    }
 	
 	@Test
 	public void testDeleteCategoryNotFound() throws Exception{
@@ -487,6 +506,40 @@ public class CategoryControllerTest {
 		
 		verify(categoryRepository, times(1)).findOne(1L);
 		verify(productRepository, times(1)).findOne(12L);
+		verifyNoMoreInteractions(productRepository);
+		verifyNoMoreInteractions(categoryRepository);
+	}
+	
+	@Test
+	public void testDeleteProductsFromCategory() throws Exception{
+		
+		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
+		category.setCategoryId(1L);
+		
+		Product product1 = new Product("SKU_1", "Product1");
+		product1.setProductId(10L);
+		Product product2 = new Product("SKU_2", "Product2");
+		product2.setProductId(11L);
+		Set<Product> products = new HashSet<Product>();
+		products.add(product1);
+		products.add(product2);
+		
+		category.setProducts(products);
+		
+		when(categoryRepository.findOne(1L)).thenReturn(category);
+		when(productRepository.findOne(10L)).thenReturn(product1);
+		when(productRepository.findOne(11L)).thenReturn(product2);
+		
+		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 1L,"10,11")
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isNoContent());
+		            
+		
+		verify(categoryRepository, times(1)).findOne(1L);
+		verify(productRepository, times(1)).findOne(10L);
+		verify(productRepository, times(1)).findOne(11L);
+		verify(categoryRepository, times(1)).saveAndFlush(category);
 		verifyNoMoreInteractions(productRepository);
 		verifyNoMoreInteractions(categoryRepository);
 	}

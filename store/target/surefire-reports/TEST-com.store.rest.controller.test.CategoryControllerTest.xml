@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.store.rest.controller.test.CategoryControllerTest" time="6.259" tests="16" errors="0" skipped="0" failures="0">
+<testsuite name="com.store.rest.controller.test.CategoryControllerTest" time="7.952" tests="18" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_25\jre\bin"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf920131069337457131.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\youssefmer\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf7838728145011577377.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_25\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/bin/server;C:/Program Files/Java/bin;C:/Program Files/Java/lib/amd64;C:\Program Files (x86)\RSA SecurID Token Common;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_25\bin;C:\ProgramData\Oracle\Java\javapath\javaw;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\OEM\12.0\DLLShared\;C:\ant\bin;C:\Program Files (x86)\Roxio\OEM\AudioCore\;C:\Users\youssefmer\maven\bin;C:\Program Files (x86)\scala\bin;C:\Program Files (x86)\Skype\Phone\;C:\cygwin64\bin;C:\Python\Python36;C:\Python\Python36\Scripts;C:\Ruby192\bin;C:\Program Files\Java\jdk1.8.0_25\bin;C:\Git\cmd;C:\Users\youssefmer\Desktop\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -60,20 +60,22 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="testCategoriesFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.713"/>
-  <testcase name="testDeleteCategoryFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.127"/>
-  <testcase name="testaddExistedProductToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.071"/>
-  <testcase name="testDeleteProductFromCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.072"/>
-  <testcase name="testDeleteCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.039"/>
-  <testcase name="testCategoryNameNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.047"/>
-  <testcase name="testDeleteNonExistedProductsFromCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.116"/>
-  <testcase name="testCategoryNameFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.056"/>
-  <testcase name="testCategoryIdNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="2.052"/>
-  <testcase name="testCreateNewCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.676"/>
-  <testcase name="testCategoriesNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.067"/>
-  <testcase name="testCategoryIdFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.053"/>
-  <testcase name="testAddNewProductsToCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="1.988"/>
-  <testcase name="testAddNewProductsToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.067"/>
-  <testcase name="testaddNontExistedProductToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.05"/>
-  <testcase name="testaddExistedProductToCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.065"/>
+  <testcase name="testCategoriesFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="5.38"/>
+  <testcase name="testDeleteCategoryFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.166"/>
+  <testcase name="testaddExistedProductToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.079"/>
+  <testcase name="testDeleteProductFromCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.16"/>
+  <testcase name="testDeleteCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.04"/>
+  <testcase name="testCategoryNameNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.088"/>
+  <testcase name="testDeleteNonExistedProductsFromCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.045"/>
+  <testcase name="testCategoryNameFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.144"/>
+  <testcase name="testCategoryIdNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.096"/>
+  <testcase name="testCreateNewNonValidCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.801"/>
+  <testcase name="testCreateNewCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.141"/>
+  <testcase name="testCategoriesNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.113"/>
+  <testcase name="testCategoryIdFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.069"/>
+  <testcase name="testAddNewProductsToCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.089"/>
+  <testcase name="testAddNewProductsToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.279"/>
+  <testcase name="testaddNontExistedProductToCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.103"/>
+  <testcase name="testDeleteProductsFromCategory" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.091"/>
+  <testcase name="testaddExistedProductToCategoryNotFound" classname="com.store.rest.controller.test.CategoryControllerTest" time="0.068"/>
 </testsuite>
