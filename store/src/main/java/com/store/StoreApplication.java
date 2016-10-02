@@ -47,32 +47,17 @@ public class StoreApplication {
                 .select()
                 .apis(RequestHandlerSelectors.any())              
                 //.paths(PathSelectors.any())
-                .paths(regex("/.*"))
+                .paths(regex("/store/.*"))
                 .build();
-                // .pathMapping("/store/");
-//                .pathMapping("/")
-//                .directModelSubstitute(LocalDate.class, String.class)
-//                .genericModelSubstitutes(ResponseEntity.class)
-//                .alternateTypeRules(newRule(typeResolver.resolve(DeferredResult.class,
-//                    typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
-//                    typeResolver.resolve(WildcardType.class)))
-//                .useDefaultResponseMessages(false)
-//                .globalResponseMessage(RequestMethod.GET,
-//                    newArrayList(new ResponseMessageBuilder()
-//                        .code(500)
-//                        .message("500 message")
-//                        .responseModel(new ModelRef("Error"))
-//                        .build()))
-//                .enableUrlTemplating(true);
+
     }
         
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Store REST Application")
                 .description("Store REST Application with Swagger")
-                //.termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
                 .license("Apache License Version 2.0")
-                .licenseUrl("API License URL")
+                .licenseUrl("")
                 .version("2.0")
                 .build();
     }

@@ -42,7 +42,6 @@ public class ProductController {
 		return product;
 	}
 
-
 	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.GET)
 	public Product getProductBySKU(@PathVariable("sku") String productSKU)
 			throws ProductNotFoundException {
@@ -67,15 +66,18 @@ public class ProductController {
 					"no Products are available in the store");
 		}
 
-		if (first != null && ((last != null && !(first > last) && last < products.size())) ) {
+		if (first != null
+				&& ((last != null && !(first > last) && last < products.size()))) {
 			return new ProductCollectionRepresentation(products.subList(
 					first - 1, last));
-		} else if ( first != null && first <= products.size()  && (last == null || last > products.size())) {
+		} else if (first != null && first <= products.size()
+				&& (last == null || last > products.size())) {
 			return new ProductCollectionRepresentation(products.subList(
 					first - 1, products.size()));
-		}
+		} else {
 
-		return new ProductCollectionRepresentation(products);
+			return new ProductCollectionRepresentation(products);
+		}
 	}
 
 	@RequestMapping(value = "/product/id/{id}", method = RequestMethod.PUT)
@@ -87,20 +89,21 @@ public class ProductController {
 			throw new ProductNotFoundException("the product Id " + productId
 					+ " is not existed to update it");
 		}
-		
-		String productSku = product.getProductSku() != null?product.getProductSku():foundProduct.getProductSku();
-		String productName = product.getProductName() != null?product.getProductName():foundProduct.getProductName();
+
+		String productSku = product.getProductSku() != null ? product
+				.getProductSku() : foundProduct.getProductSku();
+		String productName = product.getProductName() != null ? product
+				.getProductName() : foundProduct.getProductName();
 		LocalDate CreatedDate = foundProduct.getProductCreated();
-		
+
 		Product UpdatedProduct = new Product(foundProduct.getProductId(),
-				productSku, productName,CreatedDate,
-				LocalDate.now());
-		
+				productSku, productName, CreatedDate, LocalDate.now());
+
 		UpdatedProduct = productRepository.saveAndFlush(UpdatedProduct);
-		
+
 		return UpdatedProduct;
 	}
-	
+
 	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.PUT)
 	public Product updateProductBySku(@RequestBody Product product,
 			@PathVariable("sku") String sku) {
@@ -110,62 +113,66 @@ public class ProductController {
 			throw new ProductNotFoundException("the product sku " + sku
 					+ " is not existed to update it");
 		}
-		
-		String productSku = product.getProductSku() != null?product.getProductSku():foundProduct.getProductSku();
-		String productName = product.getProductName() != null?product.getProductName():foundProduct.getProductName();
+
+		String productSku = product.getProductSku() != null ? product
+				.getProductSku() : foundProduct.getProductSku();
+		String productName = product.getProductName() != null ? product
+				.getProductName() : foundProduct.getProductName();
 		LocalDate CreatedDate = foundProduct.getProductCreated();
-		
+
 		Product UpdatedProduct = new Product(foundProduct.getProductId(),
-				productSku, productName,CreatedDate,
-				LocalDate.now());
-		
+				productSku, productName, CreatedDate, LocalDate.now());
+
 		UpdatedProduct = productRepository.saveAndFlush(UpdatedProduct);
-		
+
 		return UpdatedProduct;
 	}
-	
-	@RequestMapping(value="/products", method = RequestMethod.POST)
-	public ResponseEntity<Product> createNewProduct(@RequestBody @Valid Product product){
-		
-		if(product.getProductCreated() == null){
+
+	@RequestMapping(value = "/products", method = RequestMethod.POST)
+	public ResponseEntity<Product> createNewProduct(
+			@RequestBody @Valid Product product) {
+
+		if (product.getProductCreated() == null) {
 			product.setProductCreated(LocalDate.now());
 		}
-		
-		if(product.getProductLastUpdated() == null){
+
+		if (product.getProductLastUpdated() == null) {
 			product.setProductLastUpdated(LocalDate.now());
 		}
-		
+
 		productRepository.save(product);
-		
+
 		return new ResponseEntity<Product>(product, null, HttpStatus.CREATED);
-		
+
 	}
-	
-	@RequestMapping(value="/product/id/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Product> deleteProductById(@PathVariable("id") Long productId){
-		
+
+	@RequestMapping(value = "/product/id/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Product> deleteProductById(
+			@PathVariable("id") Long productId) {
+
 		Product deletedProduct = productRepository.findOne(productId);
-		if(deletedProduct == null){
+		if (deletedProduct == null) {
 			throw new ProductNotFoundException("the product Id " + productId
 					+ " is not existed to delete it it");
 		}
-		
+
 		productRepository.delete(deletedProduct);
-		
+
 		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
 	}
-	
-	@RequestMapping(value="/product/sku/{sku}", method = RequestMethod.DELETE)
-	public ResponseEntity<Product> deleteProductBySKU(@PathVariable("sku") String sku){
-		
+
+	@RequestMapping(value = "/product/sku/{sku}", method = RequestMethod.DELETE)
+	public ResponseEntity<Product> deleteProductBySKU(
+			@PathVariable("sku") String sku) {
+
 		Product deletedProduct = productRepository.findByProductSku(sku);
-		if(deletedProduct == null){
+		if (deletedProduct == null) {
 			throw new ProductNotFoundException("the product sku " + sku
 					+ " is not existed to delete it it");
 		}
-		
+
 		productRepository.delete(deletedProduct);
-		
+
 		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
 	}
 
