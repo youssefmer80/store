@@ -24,6 +24,7 @@ import com.store.rest.representation.ProductCollectionRepresentation;
 
 @RestController
 @Transactional
+@RequestMapping("/store")
 public class ProductController {
 
 	@Autowired
@@ -66,10 +67,10 @@ public class ProductController {
 					"no Products are available in the store");
 		}
 
-		if (first != null && (last != null && last < products.size())) {
+		if (first != null && ((last != null && !(first > last) && last < products.size())) ) {
 			return new ProductCollectionRepresentation(products.subList(
 					first - 1, last));
-		} else if (first != null && (last == null || last > products.size())) {
+		} else if ( first != null && first <= products.size()  && (last == null || last > products.size())) {
 			return new ProductCollectionRepresentation(products.subList(
 					first - 1, products.size()));
 		}

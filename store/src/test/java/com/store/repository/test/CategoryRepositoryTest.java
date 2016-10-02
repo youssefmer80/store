@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.store.domain.Category;
 import com.store.repository.CategoryRepository;
@@ -17,6 +18,7 @@ import com.store.repository.CategoryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@WebAppConfiguration
 public class CategoryRepositoryTest {
 	
 	@Autowired

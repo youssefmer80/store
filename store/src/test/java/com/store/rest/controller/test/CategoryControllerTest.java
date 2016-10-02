@@ -70,11 +70,11 @@ public class CategoryControllerTest {
 	public void testCategoryIdNotFound() throws Exception{
 		
 		String message = "the category id 10 is not existed";
-		String url = "/category/id/10";
+		String url = "/store/category/id/10";
 		
 		when(categoryRepository.findOne(1000L)).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/category/id/{id}",10L)
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/category/id/{id}",10L)
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -99,7 +99,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.findOne(1L)).thenReturn(category);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/category/id/{id}",1L)
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/category/id/{id}",1L)
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(status().isOk())
@@ -117,11 +117,11 @@ public class CategoryControllerTest {
 	public void testCategoryNameNotFound() throws Exception{
 		
 		String message = "the category name cat_10 is not existed";
-		String url = "/category/name/cat_10";
+		String url = "/store/category/name/cat_10";
 		
 		when(categoryRepository.getCategoryByCategoryName("cat_10")).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/category/name/{name}","cat_10")
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/category/name/{name}","cat_10")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -145,7 +145,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.getCategoryByCategoryName("cat1")).thenReturn(category);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/category/name/{name}","cat1")
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/category/name/{name}","cat1")
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(status().isOk())
@@ -163,11 +163,11 @@ public class CategoryControllerTest {
 	public void testCategoriesNotFound() throws Exception{
 		
 		String message = "no Categories are available in the store";
-		String url = "/categories";
+		String url = "/store/categories";
 		
 		when(categoryRepository.findAll()).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/categories")
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/categories")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -210,7 +210,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.findAll()).thenReturn(categories);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/categories")
+		mockMvc.perform(MockMvcRequestBuilders.get("/store/categories")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isOk())
@@ -240,7 +240,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.save(category)).thenReturn(category);
 		
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/categories")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/store/categories")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(TestUtil.asJsonString(category)))
 		.andExpect(status().isCreated())
@@ -263,7 +263,7 @@ public class CategoryControllerTest {
 		category.setProducts(products);
 
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/categories")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/store/categories")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtil.asJsonString(category)))
 				.andExpect(status().isBadRequest());
@@ -277,11 +277,11 @@ public class CategoryControllerTest {
 	public void testDeleteCategoryNotFound() throws Exception{
 		
 		String message = "category Id 25 is not available in the store to delete";
-		String url = "/category/25";
+		String url = "/store/category/25";
 		
 		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{id}", 25L)
+		mockMvc.perform(MockMvcRequestBuilders.delete("/store/category/{id}", 25L)
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -306,7 +306,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.findOne(1L)).thenReturn(category);
 		
-		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{id}", 1L)
+		mockMvc.perform(MockMvcRequestBuilders.delete("/store/category/{id}", 1L)
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNoContent());
@@ -322,11 +322,11 @@ public class CategoryControllerTest {
 	public void testaddExistedProductToCategoryNotFound() throws Exception{
 		
 		String message = "category Id 25 is not available in the store to add product to";
-		String url = "/category/25/products/23,24,25";
+		String url = "/store/category/25/products/23,24,25";
 		
 		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 25L,"23,24,25")
+		mockMvc.perform(MockMvcRequestBuilders.put("/store/category/{categoryId}/products/{productIds}", 25L,"23,24,25")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -342,7 +342,7 @@ public class CategoryControllerTest {
 	public void testaddNontExistedProductToCategory() throws Exception{
 		
 		String message = "product Id 23 is not available in the store to add it to category";
-		String url = "/category/1/products/23";
+		String url = "/store/category/1/products/23";
 		
 		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
 		Set<Product> products = new HashSet<Product>();
@@ -354,7 +354,7 @@ public class CategoryControllerTest {
 		when(categoryRepository.findOne(1L)).thenReturn(category);
 		when(productRepository.findOne(23L)).thenThrow(new ProductNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 1L,"23")
+		mockMvc.perform(MockMvcRequestBuilders.put("/store/category/{categoryId}/products/{productIds}", 1L,"23")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -386,7 +386,7 @@ public class CategoryControllerTest {
 		
 		when(categoryRepository.save(category)).thenReturn(category);
 		
-		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products/{productIds}", 1L,"1")
+		mockMvc.perform(MockMvcRequestBuilders.put("/store/category/{categoryId}/products/{productIds}", 1L,"1")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		             .andExpect(status().isOk())
@@ -406,7 +406,7 @@ public class CategoryControllerTest {
 	public void testAddNewProductsToCategoryNotFound() throws Exception{
 		
 		String message = "category Id 25 is not available in the store to add product to";
-		String url = "/category/25/products";
+		String url = "/store/category/25/products";
 		
 		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
 		
@@ -414,7 +414,7 @@ public class CategoryControllerTest {
 		List<Product> products = new ArrayList<Product>();
 		products.add(product);
 		
-		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products", 25L)
+		mockMvc.perform(MockMvcRequestBuilders.put("/store/category/{categoryId}/products", 25L)
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .content(TestUtil.asJsonString(products))
 		            .accept(MediaType.APPLICATION_JSON))		           
@@ -441,7 +441,7 @@ public class CategoryControllerTest {
 		products.add(product1);
 		products.add(product2);
 		
-		mockMvc.perform(MockMvcRequestBuilders.put("/category/{categoryId}/products", 1L)
+		mockMvc.perform(MockMvcRequestBuilders.put("/store/category/{categoryId}/products", 1L)
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .content(TestUtil.asJsonString(products))
 		            .accept(MediaType.APPLICATION_JSON))		           
@@ -466,11 +466,11 @@ public class CategoryControllerTest {
 	public void testDeleteProductFromCategoryNotFound() throws Exception{
 		
 		String message = "category Id 25 is not available in the store to delete products from";
-		String url = "/category/25/products/12,13,15";
+		String url = "/store/category/25/products/12,13,15";
 		
 		when(categoryRepository.findOne(25L)).thenThrow(new CategoryNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 25L,"12,13,15")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/store/category/{categoryId}/products/{productIds}", 25L,"12,13,15")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -485,7 +485,7 @@ public class CategoryControllerTest {
 	public void testDeleteNonExistedProductsFromCategory() throws Exception{
 		
 		String message = "product Id 12 is not available in the store to add it to category";
-		String url = "/category/1/products/12,24,23";
+		String url = "/store/category/1/products/12,24,23";
 		
 		Category category = new Category("cat1",LocalDate.of(2016, 8, 22));
 		Set<Product> products = new HashSet<Product>();
@@ -497,7 +497,7 @@ public class CategoryControllerTest {
 		when(categoryRepository.findOne(1L)).thenReturn(category);
 		when(productRepository.findOne(12L)).thenThrow(new ProductNotFoundException(message));
 		
-		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 1L,"12,24,23")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/store/category/{categoryId}/products/{productIds}", 1L,"12,24,23")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNotFound())
@@ -530,7 +530,7 @@ public class CategoryControllerTest {
 		when(productRepository.findOne(10L)).thenReturn(product1);
 		when(productRepository.findOne(11L)).thenReturn(product2);
 		
-		mockMvc.perform(MockMvcRequestBuilders.delete("/category/{categoryId}/products/{productIds}", 1L,"10,11")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/store/category/{categoryId}/products/{productIds}", 1L,"10,11")
 		            .contentType(MediaType.APPLICATION_JSON)
 		            .accept(MediaType.APPLICATION_JSON))
 		            .andExpect(status().isNoContent());

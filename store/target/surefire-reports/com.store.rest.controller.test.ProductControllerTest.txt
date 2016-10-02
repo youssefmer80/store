@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.store.rest.controller.test.ProductControllerTest
--------------------------------------------------------------------------------
-Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.898 sec - in com.store.rest.controller.test.ProductControllerTest

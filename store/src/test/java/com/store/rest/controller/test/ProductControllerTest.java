@@ -53,21 +53,6 @@ public class ProductControllerTest {
 
 	private MockMvc mockMvc;
 
-	// private HttpMessageConverter mappingJackson2HttpMessageConverter;
-	//
-	// //
-	// @Autowired
-	// void setConverters(HttpMessageConverter<?>[] converters) {
-	//
-	// this.mappingJackson2HttpMessageConverter =
-	// Arrays.asList(converters).stream().filter(
-	// hmc -> hmc instanceof
-	// MappingJackson2HttpMessageConverter).findAny().get();
-	//
-	// Assert.assertNotNull("the JSON message converter must not be null",
-	// this.mappingJackson2HttpMessageConverter);
-	//
-	// }
 
 	@Before
 	public void setUp() throws Exception {
@@ -86,13 +71,13 @@ public class ProductControllerTest {
 	public void testGetProductIdNotFound() throws Exception {
 
 		String message = "the product id 10 is not existed";
-		String url = "/product/id/10";
+		String url = "/store/product/id/10";
 		when(productRepository.findOne(10L)).thenThrow(
 				new ProductNotFoundException(message));
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.get("/product/id/{id}", 10L)
+						MockMvcRequestBuilders.get("/store/product/id/{id}", 10L)
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
@@ -112,8 +97,9 @@ public class ProductControllerTest {
 		when(productRepository.findOne(1L)).thenReturn(product);
 
 		mockMvc.perform(
-				MockMvcRequestBuilders.get("/product/id/{id}", 1L).accept(
-						MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				MockMvcRequestBuilders.get("/store/product/id/{id}", 1L)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("productSku", is("SKU_A")))
 				.andExpect(jsonPath("productName", is("ProductA")));
 		// .andExpect(
@@ -130,14 +116,14 @@ public class ProductControllerTest {
 	public void testGetProductSkuNotFound() throws Exception {
 
 		String message = "the product sku SKU_ProA is not existed";
-		String url = "/product/sku/SKU_ProA";
+		String url = "/store/product/sku/SKU_ProA";
 		when(productRepository.findByProductSku("SKU_ProA")).thenThrow(
 				new ProductNotFoundException(message));
 
 		this.mockMvc
 				.perform(
 						MockMvcRequestBuilders
-								.get("/product/sku/{sku}", "SKU_ProA")
+								.get("/store/product/sku/{sku}", "SKU_ProA")
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
@@ -157,7 +143,7 @@ public class ProductControllerTest {
 		when(productRepository.findByProductSku("SKU_B")).thenReturn(product);
 
 		mockMvc.perform(
-				MockMvcRequestBuilders.get("/product/sku/{sku}", "SKU_B")
+				MockMvcRequestBuilders.get("/store/product/sku/{sku}", "SKU_B")
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("productSku", is("SKU_B")))
@@ -172,13 +158,13 @@ public class ProductControllerTest {
 	public void testGetAllProductsNotFound() throws Exception {
 
 		String message = "no Products are existed in the store";
-		String url = "/products";
+		String url = "/store/products";
 		when(productRepository.findAll()).thenThrow(
 				new ProductNotFoundException(message));
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.get("/products")
+						MockMvcRequestBuilders.get("/store/products")
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
@@ -212,7 +198,7 @@ public class ProductControllerTest {
 		when(productRepository.findAll()).thenReturn(products);
 
 		mockMvc.perform(
-				MockMvcRequestBuilders.get("/products").accept(
+				MockMvcRequestBuilders.get("/store/products").accept(
 						MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.products", hasSize(4)))
@@ -231,7 +217,7 @@ public class ProductControllerTest {
 	@Test
 	public void testUpdateProductByIdNotExisted() throws Exception {
 		String message = "the product Id 25 is not existed to update it";
-		String url = "/product/id/25";
+		String url = "/store/product/id/25";
 		Product product = new Product(25L, "SKU_A", "ProductA", LocalDate.of(
 				2016, 8, 16), LocalDate.now());
 
@@ -240,7 +226,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.put("/product/id/{id}", 25L)
+						MockMvcRequestBuilders.put("/store/product/id/{id}", 25L)
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
@@ -266,7 +252,7 @@ public class ProductControllerTest {
 		product.setProductName(TestUtil.createStringWithLength(50));
 
 		this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/product/id/{id}", 1L)
+				MockMvcRequestBuilders.put("/store/product/id/{id}", 1L)
 				.contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtil.asJsonString(product)))
                 .andExpect(status().isBadRequest());
@@ -289,7 +275,7 @@ public class ProductControllerTest {
 		when(productRepository.findOne(1L)).thenReturn(product);
 
 		this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/product/id/{id}", 1L)
+				MockMvcRequestBuilders.put("/store/product/id/{id}", 1L)
 						.contentType(MediaType.APPLICATION_JSON)
 						// .accept((MediaType.APPLICATION_JSON))
 						.content(TestUtil.asJsonString(updatedProduct)))
@@ -308,7 +294,7 @@ public class ProductControllerTest {
 	@Test
 	public void testUpdateProductBySkuNotExisted() throws Exception {
 		String message = "the product sku SKU_111 is not existed to update it";
-		String url = "/product/sku/SKU_111";
+		String url = "/store/product/sku/SKU_111";
 		Product product = new Product(25L, "SKU_111", "Product111",
 				LocalDate.of(2016, 8, 16), LocalDate.now());
 
@@ -318,7 +304,7 @@ public class ProductControllerTest {
 		this.mockMvc
 				.perform(
 						MockMvcRequestBuilders
-								.put("/product/sku/{sku}", "SKU_111")
+								.put("/store/product/sku/{sku}", "SKU_111")
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
@@ -345,7 +331,7 @@ public class ProductControllerTest {
 				LocalDate.of(2016, 8, 16), LocalDate.now());
 
 		this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/product/sku/{sku}", "SKU_1")
+				MockMvcRequestBuilders.put("/store/product/sku/{sku}", "SKU_1")
 						.contentType(MediaType.APPLICATION_JSON)
 						// .accept((MediaType.APPLICATION_JSON))
 						.content(TestUtil.asJsonString(updatedProduct)))
@@ -368,7 +354,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.post("/products")
+						MockMvcRequestBuilders.post("/store/products")
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
 				.andExpect(status().isCreated())
@@ -389,7 +375,7 @@ public class ProductControllerTest {
 //		when(productRepository.save(product)).thenThrow(
 //				new MethodArgumentNotValidException(new MethodParameter(null), null));
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/products")
+		mockMvc.perform(MockMvcRequestBuilders.post("/store/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestUtil.asJsonString(product))
         )
@@ -413,7 +399,7 @@ public class ProductControllerTest {
 	public void testDeleteProductByIdNotExisted() throws Exception {
 
 		String message = "the product Id 25 is not existed to delete it";
-		String url = "/product/id/25";
+		String url = "/store/product/id/25";
 		Product product = new Product(25L, "SKU_A", "ProductA", LocalDate.of(
 				2016, 8, 16), LocalDate.now());
 
@@ -422,7 +408,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.delete("/product/id/{id}", 25L)
+						MockMvcRequestBuilders.delete("/store/product/id/{id}", 25L)
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
@@ -447,7 +433,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.delete("/product/id/{id}", 1L)
+						MockMvcRequestBuilders.delete("/store/product/id/{id}", 1L)
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
@@ -463,7 +449,7 @@ public class ProductControllerTest {
 	public void testDeleteProductBySKUNotFound() throws Exception {
 
 		String message = "the product sku SKU_A is not existed to delete it";
-		String url = "/product/sku/SKU_A";
+		String url = "/store/product/sku/SKU_A";
 		Product product = new Product(25L, "SKU_A", "ProductA", LocalDate.of(
 				2016, 8, 16), LocalDate.now());
 
@@ -472,7 +458,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.delete("/product/sku/{sku}", "SKU_A")
+						MockMvcRequestBuilders.delete("/store/product/sku/{sku}", "SKU_A")
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
@@ -497,7 +483,7 @@ public class ProductControllerTest {
 
 		this.mockMvc
 				.perform(
-						MockMvcRequestBuilders.delete("/product/sku/{sku}", "SKU_A")
+						MockMvcRequestBuilders.delete("/store/product/sku/{sku}", "SKU_A")
 								.contentType(MediaType.APPLICATION_JSON)
 								.accept(MediaType.APPLICATION_JSON)
 								.content(TestUtil.asJsonString(product)))
