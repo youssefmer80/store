@@ -2,6 +2,8 @@ package com.store.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -9,14 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.store.util.LocalDateConverter;
@@ -46,6 +48,10 @@ public class Product implements Serializable{
 	@Length(min=1,max=45)
 	private String productName;
 	
+	@ManyToMany(mappedBy="products")
+	@JsonIgnore
+	private Set<Category> categories = new HashSet<Category>();
+
 	@Column(name = "product_created")
 	@Convert(converter = LocalDateConverter.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
@@ -108,6 +114,14 @@ public class Product implements Serializable{
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 	
 	public LocalDate getProductCreated() {

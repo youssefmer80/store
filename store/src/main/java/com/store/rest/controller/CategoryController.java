@@ -128,7 +128,9 @@ public class CategoryController {
 			throw new CategoryNotFoundException("the category id " + categoryId
 					+ " is not existed to be deleted");
 		}
-
+		
+		deletedCategory.setProducts(null);
+		
 		categoryRepository.delete(deletedCategory);
 
 		return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);

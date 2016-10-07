@@ -131,12 +131,12 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-swagger-ui/2.4.0/springfox-swagger-ui-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-swagger-common/2.4.0/springfox-swagger-common-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-swagger2/2.4.0/springfox-swagger2-2.4.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-spring-web/2.4.0/springfox-spring-web-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-spi/2.4.0/springfox-spi-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-schema/2.4.0/springfox-schema-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-core/2.4.0/springfox-core-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-bean-validators/2.4.0/springfox-bean-validators-2.4.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/youssefmer/.m2/repository/org/springframework/plugin/spring-plugin-metadata/1.2.0.RELEASE/spring-plugin-metadata-1.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Users/youssefmer/.m2/repository/org/springframework/plugin/spring-plugin-core/1.2.0.RELEASE/spring-plugin-core-1.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/youssefmer/.m2/repository/io/springfox/springfox-spring-web/2.4.0/springfox-spring-web-2.4.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

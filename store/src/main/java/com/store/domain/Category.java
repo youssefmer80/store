@@ -47,7 +47,7 @@ public class Category implements Serializable {
 	
 	@Column(name = "category_name", nullable=false, unique=true)
 	@NotEmpty
-	@Length(min=1,max=45)
+	@Length(min=1,max=45)  
 	private String categoryName;
 	
 	@ManyToMany(cascade=CascadeType.ALL)  
