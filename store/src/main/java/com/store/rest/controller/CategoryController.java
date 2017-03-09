@@ -1,6 +1,7 @@
 package com.store.rest.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -43,7 +44,7 @@ public class CategoryController {
 	@Qualifier("productRepository")
 	private ProductRepository productRepository;
 
-	@ApiOperation(value = "getProductById", nickname = "getProductById", response = Category.class)
+	@ApiOperation(value = "get Category By Id", notes = "Returns a single category", response = Category.class)
 	@RequestMapping(value = "/category/id/{id}", method = RequestMethod.GET)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Success", response = Category.class),
@@ -51,7 +52,8 @@ public class CategoryController {
 			@ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Failure") })
-	public Category getCategoryById(@PathVariable("id") long categoryId) {
+	public Category getCategoryById(@ApiParam(value = "ID of Category to return", required = true) 
+									@PathVariable("id") long categoryId) {
 
 		Category category = categoryRepository.findOne(categoryId);
 		if (category == null) {
@@ -73,11 +75,12 @@ public class CategoryController {
 
 		return category;
 	}
-
+	
+	@ApiOperation(value = "get all the categories", notes = "Returns all the categories", response = CategoryCollectionRepresentation.class)
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public CategoryCollectionRepresentation getAllCategories(
-			@RequestParam(required = false) Integer first,
-			@RequestParam(required = false) Integer last) {
+			@ApiParam(value = "first Category to return", required = false) @RequestParam(required = false) Integer first,
+			@ApiParam(value = "last Category to return", required = false) @RequestParam(required = false) Integer last) {
 
 		List<Category> categories = categoryRepository.findAll();
 
@@ -162,8 +165,6 @@ public class CategoryController {
 
 		foundCategory.setProducts(foundCategoryProducts);
 
-		categoryRepository.saveAndFlush(foundCategory);
-
 		return new ResponseEntity<Category>(foundCategory, null, HttpStatus.OK);
 
 	}
@@ -192,13 +193,10 @@ public class CategoryController {
 			if (product.getProductLastUpdated() == null) {
 				product.setProductLastUpdated(LocalDate.now());
 			}
-			productRepository.save(product);
 			foundCategoryProducts.add(product);
 		}
 
 		foundCategory.setProducts(foundCategoryProducts);
-
-		categoryRepository.saveAndFlush(foundCategory);
 
 		return new ResponseEntity<Category>(foundCategory, null, HttpStatus.OK);
 
@@ -235,8 +233,6 @@ public class CategoryController {
 		}
 
 		foundCategory.setProducts(categoriesProducts);
-
-		categoryRepository.saveAndFlush(foundCategory);
 
 		return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
 

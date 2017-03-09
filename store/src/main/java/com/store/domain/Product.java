@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -47,10 +48,6 @@ public class Product implements Serializable{
 	@NotEmpty
 	@Length(min=1,max=45)
 	private String productName;
-	
-	@ManyToMany(mappedBy="products")
-	@JsonIgnore
-	private Set<Category> categories = new HashSet<Category>();
 
 	@Column(name = "product_created")
 	@Convert(converter = LocalDateConverter.class)
@@ -115,15 +112,7 @@ public class Product implements Serializable{
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-	
+	 
 	public LocalDate getProductCreated() {
 		return productCreated;
 	}

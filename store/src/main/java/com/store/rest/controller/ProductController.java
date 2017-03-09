@@ -1,7 +1,9 @@
 package com.store.rest.controller;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.store.domain.Category;
 import com.store.domain.Product;
 import com.store.exception.ProductNotFoundException;
+import com.store.repository.CategoryRepository;
 import com.store.repository.ProductRepository;
 import com.store.rest.representation.ProductCollectionRepresentation;
 
@@ -30,6 +34,10 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productRepository")
 	private ProductRepository productRepository;
+	
+	@Autowired
+	@Qualifier("categoryRepository")
+	private CategoryRepository categoryRepository;
 
 	@RequestMapping(value = "/product/id/{id}", method = RequestMethod.GET)
 	public Product getProductById(@PathVariable("id") Long productId)
@@ -155,7 +163,12 @@ public class ProductController {
 			throw new ProductNotFoundException("the product Id " + productId
 					+ " is not existed to delete it it");
 		}
-
+		
+		List<Category> categories = categoryRepository.findCategoriesByProducts(deletedProduct);
+		for(Category category:categories){
+			category.getProducts().remove(deletedProduct);
+		}
+		
 		productRepository.delete(deletedProduct);
 
 		return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
@@ -169,6 +182,11 @@ public class ProductController {
 		if (deletedProduct == null) {
 			throw new ProductNotFoundException("the product sku " + sku
 					+ " is not existed to delete it it");
+		}
+		
+		List<Category> categories = categoryRepository.findCategoriesByProducts(deletedProduct);
+		for(Category category:categories){
+			category.getProducts().remove(deletedProduct);
 		}
 
 		productRepository.delete(deletedProduct);
